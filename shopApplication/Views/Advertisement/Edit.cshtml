@@ -42,7 +42,7 @@
             <div class="form-group">
                 <label asp-for="images" class="control-label"></label>
                 <input asp-for="images" type="file" multiple="multiple" accept="image/*" class="form-control" />
-                <span asp-validation-for="ihttp://crm.attractor-school.com/uploads/student_task/file/19909/csharp_group_6_Exam_8_Aidar_Syrdybaev.zipmages" class="text-danger"></span>
+                <span asp-validation-for="images" class="text-danger"></span>
             </div>
             <div class="form-group">
                 @Html.DropDownList("CategoryId", ViewBag.Categories as SelectList);
