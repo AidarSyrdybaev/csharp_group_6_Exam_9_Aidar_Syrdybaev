@@ -1,0 +1,144 @@
+﻿@model shopApplication.Models.AdvertisementModels.AdvertisementDetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>AdvertisementDetailsModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Заговолок
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class="col-sm-2">
+            Цена
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt class="col-sm-2">
+            Описание
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            Контактные данные
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ContactNumber)
+        </dd>
+        <dt class="col-sm-2">
+            Категория
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Category.Name)
+        </dd>
+        <dt class="col-sm-2">
+            Логин пользователя
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.User.Email)
+        </dd>
+    </dl>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Картинки
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Images)
+        {
+        <td>
+            <img style="width: 50%; height: 50%" src="data:image/jpeg;base64,@(Convert.ToBase64String(item.Content))" />
+        </td>
+    }
+        </tbody>
+    </table>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Пользователь
+                </th>
+                <th>
+                    Комментарий
+                </th>
+                <th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Comments)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserLogin)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Text)
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+
+
+
+    <form method="Post" asp-action="AddComment" asp-controller="Advertisement">
+        <div class="form-group">
+            <input name="Id" value="@Model.Id" type="hidden" class="form-control" />
+        </div>
+        <div class="form-group">
+            <input name="Text" type="text" class="form-control" />
+        </div>
+        <input type="submit" value="Отправить" class="btn btn-primary" />
+    </form>
+
+    <div>
+        <input id="buttonFresh" type="submit" value="Отправить" class="btn btn-primary" onclick="likeRecord()" />
+    </div>
+
+
+
+
+    <div>
+        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+        <a asp-action="Index" asp-route-id="0">Back to List</a>
+    </div>
+
+    @section Scripts
+    {
+        <script>
+            function likeRecord() {
+                $.ajax({
+                    url: '@Url.Action("RefreshAdvertisement", "Advertisement")',
+                    method: 'POST',
+                    data: { 'Id': @Model.Id },
+                    error: function(data) {
+                    console.log(data);
+                        alert('Error ' + data.status + "\n" + data.responseText);
+                    },
+                    success: function(data) {
+
+                    }
+                });
+            }
+        </script>
+
+    }
+    @Html.ActionLink("Вернуться назад", "Index", "Home", new { Id = 0 });

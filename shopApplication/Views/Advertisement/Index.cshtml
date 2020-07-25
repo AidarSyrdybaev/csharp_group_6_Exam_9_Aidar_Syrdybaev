@@ -1,0 +1,88 @@
+﻿@model IEnumerable<shopApplication.Models.AdvertisementModels.AdvertisementIndexModel>
+@inject Microsoft.AspNetCore.Identity.UserManager<shopApplication.DAL.Entities.User> UserManager
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create" asp-controller="Advertisement">Create New</a>
+</p>
+<form method="get">
+    <div class="form-inline form-group">
+
+        <label class="control-label">Ключевое слово </label>
+        <input name="SearchKey" class="form-control" />
+
+        <label class="control-label">Максимальная цена </label>
+        <input name="MinPrice" class="form-control" />
+
+        <label class="control-label">Минимальная цена </label>
+        <input name="MaxPrice" class="form-control" />
+
+        <label class="control-label">Категория </label>
+        @Html.DropDownList("CategoryId", ViewBag.Categories as SelectList);
+        @{
+            var user = await UserManager.GetUserAsync(User);
+            <input name="Id" value="@user.Id" class="form-control" />
+        }
+        <input type="submit" value="Фильтр" class="btn btn-default" />
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MainImage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContactNumber)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            @if (!item.IsGraphic)
+            {
+                <tr>
+                    <th>
+                        @if (item.MainImage != null && item.MainImage.Length > 0)
+                        {
+                            <img style="width: 50%; height: 50%" src="data:image/jpeg;base64,@(Convert.ToBase64String(item.MainImage))" />
+                        }
+                    </th>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ContactNumber)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", "Advertisement", new { Id = item.Id }) |
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
+@Html.ActionLink("Вернуться назад", "Index", "Home", new { Id = 0 });
