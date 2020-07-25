@@ -8,5 +8,7 @@ namespace shopApplication.DAL.Repositories.Contracts
     public interface IAdvertisementRepository: IRepository<Advertisement>
     {
         Advertisement GetAllAdvertisement(int Id);
+
+        Advertisement GetAllImagesAdvertisement(int Id);
     }
 }

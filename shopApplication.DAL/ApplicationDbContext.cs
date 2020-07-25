@@ -4,6 +4,7 @@ using shopApplication.DAL.Contracts.EntitiesConfiguration;
 using shopApplication.DAL.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace shopApplication.DAL
@@ -30,6 +31,7 @@ namespace shopApplication.DAL
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            
             base.OnModelCreating(builder);
 
         }

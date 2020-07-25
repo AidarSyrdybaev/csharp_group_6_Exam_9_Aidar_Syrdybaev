@@ -144,31 +144,35 @@ namespace shopApplication.Services.AdvertisementServices
             using (var uow = _unitOfWorkFactory.Create())
             {
                 var advertisement = Mapper.Map<Advertisement>(Model);
-                var Images = _fileSaver.SaveAdvertisementImages(advertisement, Model.images);
-                var MainImageByte = _fileSaver.GetImageBytes(Model.MainImage);
-                if (Model.MainImage == null)
+                if (Model.Images != null)
                 {
-                    var MainImage = new Image { AdvertisementId = advertisement.Id, MainImage = true, Content = MainImageByte };
-                    uow.Images.Create(MainImage);
+                    var Images = _fileSaver.SaveAdvertisementImages(advertisement, Model.FormImages);
+                    foreach (var image in Images)
+                    {
+                        uow.Images.Create(image);
+                    }
                 }
-                else
+               
+                if (Model.FormMainImage != null)
                 {
-                    var advertisement2 = uow.Advertisements.GetById(advertisement.Id);
-                    if (advertisement2.Images.Where(i => i.MainImage).Count() != 0)
+                    var advertisement2 = uow.Advertisements.GetAllImagesAdvertisement(advertisement.Id);
+                    var MainImageByte = _fileSaver.GetImageBytes(Model.FormMainImage);
+                    var MainImage = new Image { AdvertisementId = advertisement.Id, MainImage = true, Content = MainImageByte };
+                    
+
+                    if (advertisement2.Images.ToList().Where(i => i.MainImage) != null)
                     {
                         var Main = advertisement2.Images.FirstOrDefault(i => i.MainImage);
                         Main.MainImage = false;
                         uow.Images.Update(Main);
                     }
-                   
-                    var MainImage = new Image { AdvertisementId = advertisement.Id, MainImage = true, Content = MainImageByte };
+
                     uow.Images.Create(MainImage);
-                    
+
                 }
-                foreach (var image in Images)
-                {
-                    uow.Images.Create(image);
-                }
+               
+
+                uow.Advertisements.Update(advertisement);
                 
             }
         }
@@ -177,7 +181,7 @@ namespace shopApplication.Services.AdvertisementServices
         {
             using (var uow = _unitOfWorkFactory.Create())
             {
-                var Entity = uow.Advertisements.GetById(Id);
+                var Entity = uow.Advertisements.GetAllImagesAdvertisement(Id);
                 return Mapper.Map<AdvertisementEditModel>(Entity);
 
             }

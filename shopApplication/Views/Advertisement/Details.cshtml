@@ -60,9 +60,11 @@
     <tbody>
         @foreach (var item in Model.Images)
         {
-        <td>
-            <img style="width: 50%; height: 50%" src="data:image/jpeg;base64,@(Convert.ToBase64String(item.Content))" />
-        </td>
+        <tr>
+            <td>
+                <img style="width: 50%; height: 50%" src="data:image/jpeg;base64,@(Convert.ToBase64String(item.Content))" />
+            </td>
+        </tr>
     }
         </tbody>
     </table>
@@ -110,14 +112,14 @@
     </form>
 
     <div>
-        <input id="buttonFresh" type="submit" value="Отправить" class="btn btn-primary" onclick="likeRecord()" />
+        <input id="buttonFresh" type="submit" value="Обновить" class="btn btn-primary" onclick="likeRecord()" />
     </div>
 
 
 
 
     <div>
-        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+        @Html.ActionLink("Изменить", "Edit", new {Id = Model.Id }) |
         <a asp-action="Index" asp-route-id="0">Back to List</a>
     </div>
 

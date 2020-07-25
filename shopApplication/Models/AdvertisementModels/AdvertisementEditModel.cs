@@ -19,7 +19,7 @@ namespace shopApplication.Models.AdvertisementModels
 
         public string ContactNumber { get; set; }
 
-        public IFormFileCollection images { get; set; }
+        public IFormFileCollection FormImages { get; set; }
 
         public ICollection<Image> Images { get; set; }
 
@@ -29,6 +29,8 @@ namespace shopApplication.Models.AdvertisementModels
 
         public Category Category { get; set; }
 
-        public IFormFile MainImage { get; set; }
+        public IFormFile FormMainImage { get; set; }
+
+        public DateTime DateSort { get; set; }
     }
 }

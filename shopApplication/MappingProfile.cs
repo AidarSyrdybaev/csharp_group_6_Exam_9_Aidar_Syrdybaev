@@ -20,8 +20,8 @@ namespace shopApplication
             CreateMap<AdvertisementCreateModel, Advertisement>().ForMember(i => i.Images, src => src.Ignore());
             CreateMap<Advertisement, AdvertisementIndexModel>();
             CreateMap<Advertisement, AdvertisementDetailsModel>();
-            CreateMap<AdvertisementEditModel, Advertisement>().ForMember(i => i.Images, src => src.Ignore());
-            CreateMap<Advertisement, AdvertisementEditModel>().ForMember(i => i.Images, src => src.Ignore());
+            CreateMap<AdvertisementEditModel, Advertisement>();
+            CreateMap<Advertisement, AdvertisementEditModel>();
         }
     }
 }

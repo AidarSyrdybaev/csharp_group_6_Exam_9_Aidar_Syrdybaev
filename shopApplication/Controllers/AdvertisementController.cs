@@ -76,12 +76,12 @@ namespace shopApplication.Controllers
 
         public async Task<IActionResult> Edit(int Id)
         {
-            
+            ViewBag.Categories = _advertisementService.GetSelectListItems();
             return View(_advertisementService.GetAdvertisementEditModel(Id));
         }
         [HttpPost]
         public async Task<IActionResult> Edit(AdvertisementEditModel model)
-        {
+        {   
             _advertisementService.Edit(model);
             return RedirectToAction("Details",new {Id = model.Id });
         }

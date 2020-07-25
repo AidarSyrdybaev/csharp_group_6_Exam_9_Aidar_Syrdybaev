@@ -19,5 +19,13 @@ namespace shopApplication.DAL.Repositories
         {   
             return entities.Where(i => i.Id == Id).Include(i => i.User).Include(i => i.Images).Include(i => i.Comments).First();
         }
+
+        public Advertisement GetAllImagesAdvertisement(int Id)
+        {
+            var ent = entities.Where(i => i.Id == Id).Include(i => i.User).Include(i => i.Images);
+            if (entities.Where(i => i.Id == Id).Include(i => i.User).Include(i => i.Images).Count() > 0)
+                return entities.Where(i => i.Id == Id).Include(i => i.User).Include(i => i.Images).First();
+            return entities.Where(i => i.Id == Id).FirstOrDefault();
+        }
     }
 }
